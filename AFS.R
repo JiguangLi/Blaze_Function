@@ -107,12 +107,11 @@ AFS <- function(order, q = 0.95, d = 0.25) {
   AS_fit <- loess(intens ~ wv, data = AS, degree = 2, span = d, control = loess.control(surface = "direct"))
   # B1 records hat(B_1), which is the primary estimate of the blaze function.
   B1 <- predict(AS_fit, data.frame(wv = AS$wv))
-
   
   # Add a new column called select to the matrix order. 
   # order$select records hat(y^(1)).
- 
   order$select <- order$intens/B1
+  #print(order$select)
   # Make indices in Wa to the format of small windows. 
   # Each row of the variable window is a pair of neighboring indices in Wa.
   window <- cbind(Wa[1:(length(Wa)-1)], Wa[2:length(Wa)])
@@ -132,10 +131,12 @@ AFS <- function(order, q = 0.95, d = 0.25) {
   index <- unique(index[-1])
   index <- sort(index)
   
+  
   # Run a local polynomial regression on S_alpha, q using loess() function again.
   final_fit <- loess(intens ~ wv, data = order[index,], degree = 2, span = d, control = loess.control(surface = "direct"))
   # The final estimate of blaze function is recorded in variable B2.
   B2 <- predict(final_fit, data.frame(wv = order$wv))
+  print(B2[6100:6200])
   
   # Return the blaze-removed spectrum.
   return(order$intens/B2)
@@ -145,6 +146,4 @@ AFS <- function(order, q = 0.95, d = 0.25) {
 data <- read.csv(file="ExampleSpectrum.csv", header=TRUE, sep=",")
 data <- as.matrix(data)
 result=AFS (data, q = 0.95, d = 0.25)
-print(result)
-
-
+print(result[6100:6200])
