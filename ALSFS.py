@@ -1,22 +1,38 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Jun 16 12:14:02 2019
+Created on Sat Jun 22 20:41:19 2019
+
 @author: jiguangli
 """
-
-# Alpha-shape Fitting to Spectrum algorithm (AFS) in Python using ryp2
-# Based on Xin's code here: https://github.com/xinxuyale/AFS/blob/master/functions/AFS.R
-# We used rpy2 package here
-
+# Alpha-shape and Lab Source Fitting to Spectrum algorithm (ALSFS) in Python
+# Based on Xin's code here: https://github.com/xinxuyale/AFS/blob/master/functions/ALSFS.R
 
 # Load essential packages
 import pandas as pd
 import numpy as np
 import alphashape
 import shapely
+
 from rpy2.robjects import r
 import rpy2.robjects as robjects
+import rpy2.rinterface as ri
+from scipy.optimize import minimize
+
+
+
+
+# Input variables:
+# order: the order of spectrum to remove blaze function. It is an n by 2 matrix,
+#   where n is the number of pixels. Each row is the wavelength and intensity at 
+#   each pixel.
+# led: the corresponding order of lab source spectrum. It is also an n by 2 matrix.
+# q: the parameter q, uppder q quantile within each window will be used to 
+#   do linear transformation on the lab source spectrum. 
+# d: the smoothing parameter for local polynomial regression, which is the 
+#   proportion of neighboring points to be used when fitting at one point. 
+
+
 
 
 # Input Vairables:
@@ -31,17 +47,9 @@ def find_vertices(polygon,ref):
         indices.append(ref[ref==coordinates[i][0]].index[0])
     return indices
 
-# Input variables:
-# order: the order of spectrum to remove blaze function. It is an n by 2 NumPy arrays,
-#   where n is the number of pixels. Each row is the wavelength and intensity at 
-#   each pixel.
-# q: the parameter q, uppder q quantile within each window will be used to fit 
-#   a local polynomial model. 
-# d: the smoothing parameter for local polynomial regression, which is the 
-#   proportion of neighboring points to be used when fitting at one point. 
+    
 
-#Define AFS function
-def AFS (order, q = 0.95, d = 0.25):
+def ALSFS (order, led, q = 0.95, d = 0.25):
     # Default value of q and d are 0.95 and 0.25.
     # Change the column names and format of the dataset.
     order.columns=["wv","intens"]
@@ -54,7 +62,6 @@ def AFS (order, q = 0.95, d = 0.25):
     # Let alpha be 1/6 of the wavelength range of the whole order. 
     alpha= (order["wv"].max()-order["wv"].min())/6
     
-
     # This chunk of code detects loops in the boundary of the alpha shape. 
     # Ususally there is only one loop(polygon).
     # Variable loop is a list.
@@ -74,7 +81,7 @@ def AFS (order, q = 0.95, d = 0.25):
         for polygon in alpha_shape:
             temp= find_vertices(polygon,ref)
             loops.append(temp)
-
+    
     # Use the loops to get the set W_alpha. 
     # Variable Wa is a vector recording the indices of points in W_alpha.
     Wa=[0]
@@ -110,7 +117,8 @@ def AFS (order, q = 0.95, d = 0.25):
         else:
            # AS=AS.drop(list(range(i, n)))
             break
-
+    
+    
     # Run a local polynomial on tilde(AS_alpha), as described in step 3 of the AFS algorithm.
     # Use the function loess_1d() to run a second order local polynomial.
     # Variable y_result is the predicted output from input x
@@ -122,13 +130,16 @@ def AFS (order, q = 0.95, d = 0.25):
     df = robjects.DataFrame({"x": x, "y": y})
     # run loess (haven't found a way to specify "control" parameters)
     loess_fit = r.loess("y ~ x", data=df, degree = 2, span = d, surface="direct")
+    #wv_vec= robjects.FloatVector(list(order["wv"]))
     B1 =r.predict(loess_fit, x)
     # Add a new column called select to the matrix order. 
     # order["select"] records hat(y^(1)).
     select= order["intens"].values/B1
-   
-
     order["select"]=select
+    
+    # Calculate Q_2q-1 in step 3 of the ALSFS algorithm.
+    Q=np.quantile(order["select"],1-(1-q)*2)
+    
     # Make indices in Wa to the format of small windows. 
     # Each row of the variable window is a pair of neighboring indices in Wa.
     window= np.column_stack((Wa[0:len(Wa)-1],Wa[1:]))
@@ -140,39 +151,62 @@ def AFS (order, q = 0.95, d = 0.25):
     for i in range(window.shape[0]):
         loc_window= window[i,]
         temp = order.loc[loc_window[0]:loc_window[1]]
-        index_i= temp[temp["select"] >= np.quantile(temp["select"],q)].index
+        temp_q= max(np.quantile(temp["select"],q),Q)
+        index_i= temp[temp["select"] >= temp_q].index
         index=index+list(index_i)  
     index=np.unique(index[1:])  
     index=np.sort(index)
     
     
-    # Run Loess for the last time
-    x_2=order.iloc[index]["wv"].values
-    y_2=order.iloc[index]["intens"].values
-    x_2 = robjects.FloatVector(list(x_2))
-    y_2 = robjects.FloatVector(list(y_2))
-    df2 = robjects.DataFrame({"x_2": x_2, "y_2": y_2})
-    loess_fit2 = r.loess("y_2 ~ x_2", data=df2, degree = 2, span = d,surface="direct")
-    y_final= r.predict(loess_fit2, x)
-    result= order["intens"].values/y_final
-    return result
-
-
-
-
-
-
+    # The following chunk of code does step 5 of the ALSFS algorithm.
+    # The function optim() is used to calculate the optimization of the three 
+    # linear transformation parameters.
+    # The final estimate is in variable B2.
 # =============================================================================
-# 
-# data= pd.read_csv('ExampleSpectrum.csv', sep=',')
-# result= AFS(data,0.95,0.25)
-# #np.savetxt("update_result.csv", result, delimiter=",", fmt="%s")
-# print(result)
-# 
+#     m <- length(index)
+#     led[,2] <- led[,2]/max(led[,2])*max(order$intens)
+#     Xnew <- cbind(rep(1, m), led[index,2], led[index,1])
+#     beta <- c(0, 1, 0)
+#     fn <- function(x) sum((order$intens[index]/(Xnew%*%x)-1)^2)
+#     beta <- optim(beta, fn)$par
+#     B2 <- beta[1]+beta[2]*led[,2]+beta[3]*led[,1]
 # =============================================================================
+    m=len(index)
+    led["intens"]=led["intens"]/np.max(led["intens"].values)*np.max(order["intens"].values)
+    Xnew=led.iloc[index]
+    Xnew["constants"]=np.ones(m)
+    columnsTitles=["constants","intens","wv"]
+    Xnew=Xnew.reindex(columns=columnsTitles)
+    order_new= order.iloc[index]
+    beta= np.array([0,1,0])
+
+    v1= order_new["intens"].values
+    m1= Xnew.values
+    
+    
+    def f(beta):
+        return np.sum(np.square((np.divide(v1,np.matmul(m1,beta))-1)))
+   
+# =============================================================================
+#     print(f(beta))
+#     op_result= minimize(f,beta,method='nelder-mead')
+#     print(op_result.x)
+#     print(f(np.array([-7.7225,0.9975,0.001548])))
+#     print(f(np.array([-8.995,0.9979,0.001801])))
+# =============================================================================
+    print("hah")
+    r_f = ri.rternalize(f)
+    Beta =  robjects.FloatVector((0,1,0))
+    res = r.optim(Beta, r_f)
+    print(res)
 
 
+   
+    
+    
 
-
-
-
+    
+    
+data= pd.read_csv('ExampleSpectrum.csv', sep=',')
+source= pd.read_csv('LabSource.csv', sep=',')
+result= ALSFS(data,source,0.95,0.25)

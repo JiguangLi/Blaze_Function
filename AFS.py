@@ -20,7 +20,7 @@ import alphashape
 import shapely
 from loess.loess_1d import loess_1d
 from scipy.interpolate import interp1d
-#import matplotlib.pyplot as plt
+
 # Input Vairables:
 # polygon: shapely polygon object
 # ref: a pandas series that tracks the index of each data point
@@ -138,8 +138,7 @@ def AFS (order, q = 0.95, d = 0.25):
         temp = order.loc[loc_window[0]:loc_window[1]]
         index_i= temp[temp["select"] >= np.quantile(temp["select"],q)].index
         index=index+list(index_i)
-    #index=np.unique(index[1:])  
-    index=np.unique(index)  
+    index=np.unique(index[1:])  
     index=np.sort(index)
 
 
@@ -159,9 +158,11 @@ def AFS (order, q = 0.95, d = 0.25):
 
 
 
-
-
-data= pd.read_csv('ExampleSpectrum.csv', sep=',')
-result= AFS(data,0.95,0.25)
-print(result)
-
+# =============================================================================
+# 
+# 
+# data= pd.read_csv('ExampleSpectrum.csv', sep=',')
+# result= AFS(data,0.95,0.25)
+# print(result)
+# 
+# =============================================================================
