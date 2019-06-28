@@ -8,31 +8,18 @@ Created on Sat Jun 22 20:41:19 2019
 # Alpha-shape and Lab Source Fitting to Spectrum algorithm (ALSFS) in Python
 # Based on Xin's code here: https://github.com/xinxuyale/AFS/blob/master/functions/ALSFS.R
 
+# The result can differ from Xin's original code due to the optimazation problem
+# appeared in the end. Python's minimize function can produce a slightly different result
+# compared to the optim function in R
+
 # Load essential packages
 import pandas as pd
 import numpy as np
 import alphashape
 import shapely
-
 from rpy2.robjects import r
 import rpy2.robjects as robjects
-import rpy2.rinterface as ri
 from scipy.optimize import minimize
-
-
-
-
-# Input variables:
-# order: the order of spectrum to remove blaze function. It is an n by 2 matrix,
-#   where n is the number of pixels. Each row is the wavelength and intensity at 
-#   each pixel.
-# led: the corresponding order of lab source spectrum. It is also an n by 2 matrix.
-# q: the parameter q, uppder q quantile within each window will be used to 
-#   do linear transformation on the lab source spectrum. 
-# d: the smoothing parameter for local polynomial regression, which is the 
-#   proportion of neighboring points to be used when fitting at one point. 
-
-
 
 
 # Input Vairables:
@@ -48,7 +35,17 @@ def find_vertices(polygon,ref):
     return indices
 
     
-
+# Input variables:
+# order: the order of spectrum to remove blaze function. It is an n by 2 matrix,
+#   where n is the number of pixels. Each row is the wavelength and intensity at 
+#   each pixel.
+# led: the corresponding order of lab source spectrum. It is also an n by 2 matrix.
+# q: the parameter q, uppder q quantile within each window will be used to 
+#   do linear transformation on the lab source spectrum. 
+# d: the smoothing parameter for local polynomial regression, which is the 
+#   proportion of neighboring points to be used when fitting at one point. 
+    
+# Return variable: blaze-removed spectrum
 def ALSFS (order, led, q = 0.95, d = 0.25):
     # Default value of q and d are 0.95 and 0.25.
     # Change the column names and format of the dataset.
@@ -159,18 +156,9 @@ def ALSFS (order, led, q = 0.95, d = 0.25):
     
     
     # The following chunk of code does step 5 of the ALSFS algorithm.
-    # The function optim() is used to calculate the optimization of the three 
+    # The function minimize()) is used to calculate the optimization of the three 
     # linear transformation parameters.
     # The final estimate is in variable B2.
-# =============================================================================
-#     m <- length(index)
-#     led[,2] <- led[,2]/max(led[,2])*max(order$intens)
-#     Xnew <- cbind(rep(1, m), led[index,2], led[index,1])
-#     beta <- c(0, 1, 0)
-#     fn <- function(x) sum((order$intens[index]/(Xnew%*%x)-1)^2)
-#     beta <- optim(beta, fn)$par
-#     B2 <- beta[1]+beta[2]*led[,2]+beta[3]*led[,1]
-# =============================================================================
     m=len(index)
     led["intens"]=led["intens"]/np.max(led["intens"].values)*np.max(order["intens"].values)
     Xnew=led.iloc[index]
@@ -179,34 +167,24 @@ def ALSFS (order, led, q = 0.95, d = 0.25):
     Xnew=Xnew.reindex(columns=columnsTitles)
     order_new= order.iloc[index]
     beta= np.array([0,1,0])
-
     v1= order_new["intens"].values
     m1= Xnew.values
     
-    
+    # Define the function to be optimized 
     def f(beta):
-        return np.sum(np.square((np.divide(v1,np.matmul(m1,beta))-1)))
+        return np.sum(np.square((np.divide(v1,np.matmul(m1,beta))-np.ones(m))))
    
-# =============================================================================
-#     print(f(beta))
-#     op_result= minimize(f,beta,method='nelder-mead')
-#     print(op_result.x)
-#     print(f(np.array([-7.7225,0.9975,0.001548])))
-#     print(f(np.array([-8.995,0.9979,0.001801])))
-# =============================================================================
-    print("hah")
-    r_f = ri.rternalize(f)
-    Beta =  robjects.FloatVector((0,1,0))
-    res = r.optim(Beta, r_f)
-    print(res)
-
-
+    op_result= minimize(f,beta)
+    param=op_result.x
+    B2=param[1]*led["intens"].values+param[2]*led["wv"].values+param[0]
    
-    
-    
-
+    return order["intens"].values/B2
     
     
 data= pd.read_csv('ExampleSpectrum.csv', sep=',')
 source= pd.read_csv('LabSource.csv', sep=',')
 result= ALSFS(data,source,0.95,0.25)
+np.savetxt("ALSFS.py.csv", result, delimiter=",", fmt="%s")
+
+
+

@@ -91,17 +91,16 @@ ALSFS <- function(order, led, q = 0.95, d=0.25) {
     b <- Wa[which(i<Wa)[1]]
     AS$intens[i] <- AS$intens[a]+(AS$intens[b]-AS$intens[a])*((AS$wv[i]-AS$wv[a])/(AS$wv[b]-AS$wv[a]))
   }
-
   # Run a local polynomial on tilde(AS_alpha), as described in step 3 of the AFS algorithm.
   # Use the function loess() to run a second order local polynomial.
   # Variable AS_fit is the local polynomial regression object.
   AS_fit <- loess(intens ~ wv, data = AS, degree = 2, span = d, control = loess.control(surface = "direct"))
   # B1 records hat(B_1), which is the primary estimate of the blaze function.
   B1 <- predict(AS_fit, data.frame(wv = order$wv))
+  
   # Add a new column called select to the matrix order. 
   # order$select records hat(y^(1)).
   order$select <- order$intens/B1
- 
   # Calculate Q_2q-1 in step 3 of the ALSFS algorithm.
   Q <- quantile(order$select, 1-(1-q)*2)
   
@@ -121,11 +120,9 @@ ALSFS <- function(order, led, q = 0.95, d=0.25) {
     index.add <- loc_window[1]+index.i-1 
     index <- c(index, index.add)
   }
-
   index <- unique(index[-which(index==0)])
   index <- sort(index)
-
-
+  
   # The following chunk of code does step 5 of the ALSFS algorithm.
   # The function optim() is used to calculate the optimization of the three 
   # linear transformation parameters.
@@ -133,7 +130,7 @@ ALSFS <- function(order, led, q = 0.95, d=0.25) {
   m <- length(index)
   led[,2] <- led[,2]/max(led[,2])*max(order$intens)
   Xnew <- cbind(rep(1, m), led[index,2], led[index,1])
-  beta <- c(9, 1, 17)
+  beta <- c(0, 1, 0)
   fn <- function(x) sum((order$intens[index]/(Xnew%*%x)-1)^2)
   print(fn(beta))
   beta <- optim(beta, fn)$par
@@ -150,4 +147,6 @@ data <- as.matrix(data)
 source <- read.csv(file="LabSource.csv", header=TRUE, sep=",")
 source <- as.matrix(source)
 result=ALSFS (data, source, q = 0.95, d = 0.25)
+
+write.csv(result, file = "ALSFS.R.csv")
 
