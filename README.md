@@ -33,6 +33,7 @@ Data: includes all the csv files that will be used in the usage examples illustr
 <br>
 ## Usage:
 <br>
+
 ## An Example to run AFS.py:
 <pre>
   <code>
@@ -41,10 +42,10 @@ import pandas as pd
 from AFS import *
 <br>
 # read the input csv file as a pandas dataframe,
-# ExampleSpectrum.csv has two columns: wavelength and intensity
+# ExampleSpectrum.csv should have two columns: wavelength and intensity
 data= pd.read_csv('ExampleSpectrum.csv', sep=','
 <br>
-# run the AFS algorithm where result, a one-dimensional vector, contains the blaze removed spectrum
+# run the AFS algorithm, where result, a one-dimensional vector, contains the blaze removed spectrum.
 result= AFS(data,0.95,0.25)
 <br>
 # if you want to output the result as a CSV file in your working directory, you can do the following: 
