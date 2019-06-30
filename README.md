@@ -20,7 +20,7 @@ To use these two algorithms, first change the current working directory to the l
 <br> You will then be ready to go.
 
 ## Descriptions:
-<br> AFS.py: implementation of the AFS algorithm. It can produce the same result as Xin's original R code.
+AFS.py: implementation of the AFS algorithm. It can produce the same result as Xin's original R code.
 <br>
 <br> ALSFS.py: implementation of the ALSFS algorithm. The final result might slightly differ from Xin's original code because the minimize function from scipy and the optim function from R sometimes can produce different results for the same optimazation problem.
 <br>
@@ -32,8 +32,7 @@ To use these two algorithms, first change the current working directory to the l
 Data: includes all the csv files that will be used in the usage examples illustrated below
 <br>
 ## Usage:
-
-### An Example to run AFS.py:
+### An Example to use AFS.py:
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
@@ -61,6 +60,83 @@ df.to_csv("result1.csv", index=False)
     
   </code>
 </pre>
+<br>
+### An Example to use ALSFS.py:
+<pre>
+  <code>
+# load essential packages, make sure you have downloaded the repository
+import pandas as pd
+from ALSFS import *
+import matplotlib.pyplot as plt
+<br>
+# read the input csv files as a pandas dataframe
+# data is the input spectrum and source is the lab source, each of which is n by 2 matrix
+data= pd.read_csv('ExampleSpectrum.csv', sep=',')
+source= pd.read_csv('LabSource.csv', sep=',')
+result= ALSFS(data,source,0.95,0.25)
+print(result)
+<br>
+#If you want to plot the blaze-removed spectrum
+plt.clf()
+plt.plot(data["wv"], result, 'b', linewidth=1, label='Blaze removed spectrum python')
+plt.legend(loc='lower right')
+plt.title("ALSFS Result")
+<br>
+# if you want to output the result as a pandas dataframe
+# You will find a new csv file named result1.csv in your working directory
+# result1.csv contains two columns: wavelength and the blaze removed spectrum
+x=data["wv"].values
+df=pd.DataFrame({"wv":x,"intens":result})
+df.to_csv("result1.csv", index=False)   
+  </code>
+</pre>
+<br>
+### An Example to use Boundary_Correction.py:
+<pre>
+  <code>
+# Load Essential Packages
+import pandas as pd
+from Boundary_Correction import*
+import matplotlib.pyplot as plt
+<br>
+# Read the left and right order in csv files
+# where left_data is an n1 by 2 dataframe, and right data is an n2 by 2 dataframe
+left_data= pd.read_csv('left_order.csv', sep=',')
+right_data= pd.read_csv('right_order.csv', sep=',')
+<br>
+# Run the boundary correction algorithm
+# result is a 2-element tuple that contains the corrected left_order and righr_order
+result= Boundary_correction(left_data,right_data)
+<br>
+# To retrieve the corrected left_order and right_order:
+left_order=result[0]
+right_order=result[1]
+<br>
+# output the corrected two orders into two csv files
+left_order.to_csv("corrected_left_order.csv", index=False)
+right_order.to_csv("corrected_right_order.csv", index=False)
+  </code>
+</pre>
+<br>
+### An Example to use LS_Smoothing.py:
+<pre>
+  <code>
+# Load Essential Packages
+import pandas as pd
+from LS_Smoothing import*
+import matplotlib.pyplot as plt
+<br>
+#input the Raw lab source in csv format
+# result records a smooth version of the raw lab source as a dataframe
+data= pd.read_csv("RawLabSource.csv", sep=',')
+result= LSS(data, 0.98, 0.25, 0.97)
+<br>
+# To output the result in a csv file
+result.to_csv("smooth lab source.csv", index=False)
+  </code>
+</pre>
+<br>
+
 
 
 
