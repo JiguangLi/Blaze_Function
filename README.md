@@ -21,11 +21,16 @@ To use these two algorithms, first change the current working directory to the l
 
 ## Descriptions:
 <br> AFS_old.py: implementation of the AFS algorithm without calling R loess function. ryp2 package is not required to run this code but the result will be less accurate since python's loess function can be problematic sometimes.
+<br>
 <br> AFS.py: implementation of the AFS algorithm. It uses ryp2 package and can produce the same result as Xin's original code.
+<br>
 <br> ALSFS.py: implementation of the ALSFS algorithm. The final result might slightly differ from Xin's original code because the minimize function from scipy and the optim function from R sometimes can produce different results for the same optimazation problem.
+<br>
 <br> Boundary_Correction.py: calculate the weighted average of the blaze-removed spectrum of the two orders to correct the boundary of spectrums and to estimate the blaze function in the overlapping region. The method is discussed in section 2.4.1 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>. 
+<br>
 <br> LS_Smoothing.py: An exmaple to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2
-
+<br>
+Data: include all the data that will be used in the usage example
 ## Usage:
 
 
