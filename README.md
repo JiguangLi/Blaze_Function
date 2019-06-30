@@ -90,7 +90,7 @@ df=pd.DataFrame({"wv":x,"intens":result})
 df.to_csv("result1.csv", index=False)   
   </code>
 </pre>
-<br>
+
 ### An Example to use Boundary_Correction.py:
 <pre>
   <code>
@@ -117,7 +117,7 @@ left_order.to_csv("corrected_left_order.csv", index=False)
 right_order.to_csv("corrected_right_order.csv", index=False)
   </code>
 </pre>
-<br>
+
 ### An Example to use LS_Smoothing.py:
 <pre>
   <code>
