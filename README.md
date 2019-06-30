@@ -14,4 +14,9 @@ The following python packages are required to run the AFS and the ALSFS algorith
 <br><a href="https://rpy2.readthedocs.io/en/version_2.8.x/overview.html"> rpy2 </a>: used for calling R loess function in Python: 
 <br><a href="https://www.scipy.org/"> scipy </a>: used for optimaztion problem appeared in the end of the ALSFS algorithm
 
+## Installation:
+To use these two algorithms, first change the current working directory to the location where you want the cloned directory to be made on terminal. Then type the following command on terminal:
+<br> <code> git clone https://github.com/JiguangLi/Blaze_Function.git </code>
+<br> You will then be ready to go.
+
 
