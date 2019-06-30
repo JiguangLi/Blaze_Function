@@ -167,8 +167,8 @@ right_order.to_csv("corrected_right_order.csv", index=False)
 <li># qs: the parameter q_s mentioned in the paper. The upper q_s quantile is used 
  in the stop criterion of the iteration. The default value is 0.97</li>
 </p>
-<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
-<p>The following code illustrates how we can use ALSFS algorithm in python<p>
+<p>The algorithm will return the smoothed lab source spectrum, an n by 2 dataframe.</p>
+<p>The following code illustrates how we can use LS_Smoothing in python<p>
 <pre>
   <code>
 # Load Essential Packages
