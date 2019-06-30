@@ -60,7 +60,7 @@ df.to_csv("result1.csv", index=False)
     
   </code>
 </pre>
-<br>
+
 ### An Example to use ALSFS.py:
 <pre>
   <code>
