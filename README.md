@@ -32,9 +32,8 @@ To use these two algorithms, first change the current working directory to the l
 Data: includes all the csv files that will be used in the usage examples illustrated below
 <br>
 ## Usage:
-<br>
 
-## An Example to run AFS.py:
+### An Example to run AFS.py:
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
