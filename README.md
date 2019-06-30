@@ -138,17 +138,19 @@ result.to_csv("smooth lab source.csv", index=False)
 <br>
 
 ## Some advice on parameter selection from the paper:
-There are two parameters in the AFS Algorithm:
-<br>
-q: selecting a good value of q means selecting points on the spectrum that do not drop into absorption lines. In general, If the S/N is high or the absorption is large, a larger q is needed to select points in S so that few points fall in absorption lines; if S/N is low or there is minimal absorption, a smaller q is needed to get enough points. As a rule of thumb,  a q from 0.95 to 0.99 works for S/N 300, a q from 0.85 to 0.95 works for S/N 150, and a q from 0.5 to 0.85 works for S/N lower than 150.
-<br>
+<p>There are two parameters in the AFS Algorithm:</p>
+<p>
+q: selecting a good value of q means selecting points on the spectrum that do not drop into absorption lines. In general, If the S/N is high or the absorption is large, a larger q is needed to select points in S so that few points fall in absorption lines; if S/N is low or there is minimal absorption, a smaller q is needed to get enough points. As a rule of thumb,  a q from 0.95 to 0.99 works for S/N 300, a q from 0.85 to 0.95 works for S/N 150, and a q from 0.5 to 0.85 works for S/N lower than 150.</p>
+<p>
 d: If there are many absorption lines or any absorption lines that are wide, a large d is needed to get a good estimate. If there are few absorption lines or absorption lines that are narrow, a small d is needed so that the estimation better adapts to local regions. A range between 0.15-0.3 is usually a good starting point to find the right value of d.
-<br>
+</p>
+<p>
 In general, the blaze function estimate is more sensitive to small changes in q than d. 
 we can start with the default value of d and tune
 the parameter q within the range according to its S/N and amount of absorption.
-<br>
-The ALSFS algorithm has the same parameters as AFS and can be determined in a similar fashion. In ALSFS, d has less influence on the results than for the AFS algorithm. The quantile parameter q epends on the appearances of spikes. If spikes are long, use a smaller q such as 0.95; if spikes are very small, use a larger q such as 0.98 or 0.99.
+</p>
+<p>
+The ALSFS algorithm has the same parameters as AFS and can be determined in a similar fashion. In ALSFS, d has less influence on the results than for the AFS algorithm. The quantile parameter q epends on the appearances of spikes. If spikes are long, use a smaller q such as 0.95; if spikes are very small, use a larger q such as 0.98 or 0.99. </p>
 
 
 
