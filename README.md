@@ -32,7 +32,18 @@ AFS.py: implementation of the AFS algorithm. It can produce the same result as X
 Data: includes all the csv files that will be used in the usage examples illustrated below
 <br>
 ## Usage:
-### An Example to use AFS.py:
+### AFS.py:
+</p>AFS algorithm can be used to remove the blaze function of s spectrum when this
+is no available corresponding lab source spectrum. </p>
+
+<p>The AFS algorithm  allows users to specify 3 parameters:
+<p>order: order represents the spectrum to remove blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity.
+  <br>
+q: a number between 0 and 1.  Under q quantile within each window will be used to fit a local polynomial model. The default value is 0.95.
+  <br>
+d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. The default value is 0.25.
+</p>
+<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
