@@ -32,22 +32,22 @@ To use these two algorithms, first change the current working directory to the l
 Data: includes all the csv files that will be used in the usage examples illustrated below
 <br>
 ## Usage:
-1. Example to run AFS.py:
+<br>
+### Example to run AFS.py:
 <pre>
   <code>
-  import pandas as pd
+# load essential packages, make sure you have downloaded the repository
+import pandas as pd
 from AFS import *
-import matplotlib.pyplot as plt
 
 # read the input csv file as a pandas dataframe,
-# ExampleSpectrum.csv has two columns: wavelength and intensity
+# ExampleSpectrum.csv should two columns: wavelength and intensity
 data= pd.read_csv('ExampleSpectrum.csv', sep=',')
 
-# run the AFS algorithm where result contains the blaze removed spectrum
+# run the AFS algorithm where result, a one-dimensional vector, contains the blaze removed spectrum
 result= AFS(data,0.95,0.25)
 
-# if you want to output the result as a pandas dataframe
-# You will find a new csv file named result1.csv in your working directory
+# if you want to output the result as a CSV file in your working directory, you can do the following: 
 # result1.csv contains two columns: wavelength and the blaze removed spectrum
 x=data["wv"].values
 df=pd.DataFrame({"wv":x,"intens":result})
