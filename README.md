@@ -20,9 +20,7 @@ To use these two algorithms, first change the current working directory to the l
 <br> You will then be ready to go.
 
 ## Descriptions:
-<br> AFS_old.py: implementation of the AFS algorithm without calling R loess function. ryp2 package is not required to run this code but the result will be less accurate since python's loess function can be problematic sometimes.
-<br>
-<br> AFS.py: implementation of the AFS algorithm. It uses ryp2 package and can produce the same result as Xin's original code.
+<br> AFS.py: implementation of the AFS algorithm. It can produce the same result as Xin's original R code.
 <br>
 <br> ALSFS.py: implementation of the ALSFS algorithm. The final result might slightly differ from Xin's original code because the minimize function from scipy and the optim function from R sometimes can produce different results for the same optimazation problem.
 <br>
@@ -31,9 +29,32 @@ To use these two algorithms, first change the current working directory to the l
 <br> LS_Smoothing.py: An exmaple to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>.
 <br>
 <br>
-Data: include all the data that will be used in the usage example
+Data: includes all the csv files that will be used in the usage examples illustrated below
 <br>
 ## Usage:
+1. Example to run AFS.py:
+<pre>
+  <code>
+  import pandas as pd
+from AFS import *
+import matplotlib.pyplot as plt
+
+# read the input csv file as a pandas dataframe,
+# ExampleSpectrum.csv has two columns: wavelength and intensity
+data= pd.read_csv('ExampleSpectrum.csv', sep=',')
+
+# run the AFS algorithm where result contains the blaze removed spectrum
+result= AFS(data,0.95,0.25)
+
+# if you want to output the result as a pandas dataframe
+# You will find a new csv file named result1.csv in your working directory
+# result1.csv contains two columns: wavelength and the blaze removed spectrum
+x=data["wv"].values
+df=pd.DataFrame({"wv":x,"intens":result})
+df.to_csv("result1.csv", index=False)
+    
+  </code>
+</pre>
 
 
 
