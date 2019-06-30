@@ -1,6 +1,6 @@
 # Two Methods to Remove Blaze Function from Echelle Spectrum Orders: AFS and ALSFS in Python
 
-This repository aims to implement the AFS and the ALSFS algorithms in python proposed by Xin Xu's paper available  <a href="https://arxiv.org/pdf/1904.10065.pdf"> here </a>.  </p>
+This repository contains the implementation of the AFS and the ALSFS algorithms in python proposed by Xin Xu, whose paper is available  <a href="https://arxiv.org/pdf/1904.10065.pdf"> here </a>.  </p>
 
 ## Motivation:
 The AFS and the ALSFS algorithms can be used to flatten the spectrum continuum, an important data analysis step in spectroscopic analysis. The original code was implemented in R by Xin Xu. Here, we implemented the AFS and the ALSFS algorithms in Python which will be convenient for astronomers to work with. 
