@@ -7,11 +7,11 @@ The AFS and the ALSFS algorithms can be used to flatten the spectrum continuum, 
 
 ## Prerequisite:
 The following python packages are required to run the AFS and the ALSFS algorithms: 
-<a href="https://pandas.pydata.org/"> Pandas </a> : used for data analysis 
-<a href="https://www.numpy.org/"> Numpy </a> : used for scientific computing
-<a href="https://pypi.org/project/alphashape/"> alphashape </a>: used for calculation of the alphashape of a geometric object
-<a href="https://pypi.org/project/Shapely/"> shapely </a>: used for analysis of geometric objects in the Cartesian plane.
-<a href="https://rpy2.readthedocs.io/en/version_2.8.x/overview.html"> rpy2 </a>: used to call R functions in Python: 
-<a href="https://www.scipy.org/"> scipy </a>: used for optimaztion problem appeared in the end of the ALSFS algorithm
+<br><a href="https://pandas.pydata.org/"> Pandas </a> : used for data analysis 
+<br><a href="https://www.numpy.org/"> Numpy </a> : used for scientific computing
+<br><a href="https://pypi.org/project/alphashape/"> alphashape </a>: used for calculation of the alphashape of a geometric object
+<br><a href="https://pypi.org/project/Shapely/"> shapely </a>: used for analysis of geometric objects in the Cartesian plane.
+<br><a href="https://rpy2.readthedocs.io/en/version_2.8.x/overview.html"> rpy2 </a>: used to call R functions in Python: 
+<br><a href="https://www.scipy.org/"> scipy </a>: used for optimaztion problem appeared in the end of the ALSFS algorithm
 
 
