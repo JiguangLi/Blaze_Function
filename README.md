@@ -33,7 +33,7 @@ Data: includes all the csv files that will be used in the usage examples illustr
 <br>
 ## Usage:
 <br>
-### Example to run AFS.py:
+1. An Example to run AFS.py:
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
