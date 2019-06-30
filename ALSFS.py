@@ -173,7 +173,6 @@ def ALSFS (order, led, q = 0.95, d = 0.25):
     # Define the function to be optimized 
     def f(beta):
         return np.sum(np.square((np.divide(v1,np.matmul(m1,beta))-np.ones(m))))
-   
     op_result= minimize(f,beta)
     param=op_result.x
     B2=param[1]*led["intens"].values+param[2]*led["wv"].values+param[0]
@@ -181,10 +180,12 @@ def ALSFS (order, led, q = 0.95, d = 0.25):
     return order["intens"].values/B2
     
     
-data= pd.read_csv('ExampleSpectrum.csv', sep=',')
-source= pd.read_csv('LabSource.csv', sep=',')
-result= ALSFS(data,source,0.95,0.25)
-np.savetxt("ALSFS.py.csv", result, delimiter=",", fmt="%s")
-
+# =============================================================================
+# data= pd.read_csv('ExampleSpectrum.csv', sep=',')
+# source= pd.read_csv('LabSource.csv', sep=',')
+# result= ALSFS(data,source,0.95,0.25)
+# print(result)
+# 
+# =============================================================================
 
 

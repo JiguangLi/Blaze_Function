@@ -5,9 +5,12 @@ Created on Sun Jun 16 12:14:02 2019
 @author: jiguangli
 """
 
-# Alpha-shape Fitting to Spectrum algorithm (AFS) in Python using ryp2
+# Alpha-shape Fitting to Spectrum algorithm (AFS) in Python
 # Based on Xin's code here: https://github.com/xinxuyale/AFS/blob/master/functions/AFS.R
-# We used rpy2 package here
+# Please note: the final result may differ from Xin's code because:
+#  1) The implementation of loess function in python is sightly different in R
+#  2) Loess function doesn't come with predict function, so I used linear interpolation
+#     to approximate the result
 
 
 # Load essential packages
@@ -15,9 +18,8 @@ import pandas as pd
 import numpy as np
 import alphashape
 import shapely
-from rpy2.robjects import r
-import rpy2.robjects as robjects
-
+from loess.loess_1d import loess_1d
+from scipy.interpolate import interp1d
 
 # Input Vairables:
 # polygon: shapely polygon object
@@ -116,44 +118,39 @@ def AFS (order, q = 0.95, d = 0.25):
     # Variable y_result is the predicted output from input x
     x=AS["wv"].values
     y=AS["intens"].values
-    # covert x and y to R vectors
-    x = robjects.FloatVector(list(x))
-    y = robjects.FloatVector(list(y))
-    df = robjects.DataFrame({"x": x, "y": y})
-    # run loess (haven't found a way to specify "control" parameters)
-    loess_fit = r.loess("y ~ x", data=df, degree = 2, span = d, surface="direct")
-    B1 =r.predict(loess_fit, x)
+    x_result,y_result,w=loess_1d(x, y, frac=d,degree=2)
+        
     # Add a new column called select to the matrix order. 
     # order["select"] records hat(y^(1)).
-    select= order["intens"].values/B1
-   
-
+    select= order["intens"].values/y_result
     order["select"]=select
+   
     # Make indices in Wa to the format of small windows. 
     # Each row of the variable window is a pair of neighboring indices in Wa.
     window= np.column_stack((Wa[0:len(Wa)-1],Wa[1:]))
     
-    # This chunk of code select the top q quantile of points in each window.
-    # The point indices are recorded in variable index, which is S_alpha, q in step 4
-    # of the AFS algorithm.
+     # This chunk of code select the top q quantile of points in each window.
+     # The point indices are recorded in variable index, which is S_alpha, q in step 4
+     # of the AFS algorithm.
     index=[0]
     for i in range(window.shape[0]):
         loc_window= window[i,]
         temp = order.loc[loc_window[0]:loc_window[1]]
         index_i= temp[temp["select"] >= np.quantile(temp["select"],q)].index
-        index=index+list(index_i)  
+        index=index+list(index_i)
     index=np.unique(index[1:])  
     index=np.sort(index)
-    
-    
-    # Run Loess for the last time
-    x_2=order.iloc[index]["wv"].values
-    y_2=order.iloc[index]["intens"].values
-    x_2 = robjects.FloatVector(list(x_2))
-    y_2 = robjects.FloatVector(list(y_2))
-    df2 = robjects.DataFrame({"x_2": x_2, "y_2": y_2})
-    loess_fit2 = r.loess("y_2 ~ x_2", data=df2, degree = 2, span = d,surface="direct")
-    y_final= r.predict(loess_fit2, x)
+
+
+    # Since loess_1d doesn't have a predict function, we use linear interpolation
+    # to approximate our result.
+    # We will find a way to improve it.
+    index=np.append(index,(n-1))
+    x=order.iloc[index]["wv"].values
+    y=order.iloc[index]["intens"].values
+    x_result,y_result,w=loess_1d(x, y, frac=d,degree=2)
+    f = interp1d(x_result, y_result, bounds_error=False)
+    y_final=f(order["wv"].values)
     result= order["intens"].values/y_final
     return result
 
@@ -161,18 +158,11 @@ def AFS (order, q = 0.95, d = 0.25):
 
 
 
-
 # =============================================================================
+# 
 # 
 # data= pd.read_csv('ExampleSpectrum.csv', sep=',')
 # result= AFS(data,0.95,0.25)
-# #np.savetxt("update_result.csv", result, delimiter=",", fmt="%s")
 # print(result)
 # 
 # =============================================================================
-
-
-
-
-
-
