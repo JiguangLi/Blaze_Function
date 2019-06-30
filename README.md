@@ -35,13 +35,14 @@ AFS.py: implementation of the AFS algorithm. It can produce the same result as X
 is no available corresponding lab source spectrum. </p>
 
 <p>The AFS algorithm  allows users to specify 3 parameters:
-<p>order: order represents the spectrum to remove blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity.
+<p><li>order: order represents the spectrum to remove blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity.</li>
   <br>
 <li>q: a number between 0 and 1.  Under q quantile within each window will be used to fit a local polynomial model. The default value is 0.95.</li>
   <br>
 <li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. The default value is 0.25.</li>
 </p>
 <p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
+<p>The following code illustrates how we can use AFS algorithm in python<p>
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
@@ -70,7 +71,19 @@ df.to_csv("result1.csv", index=False)
   </code>
 </pre>
 
-### An Example to use ALSFS.py:
+### ALSFS.py:
+<P>The ALSFS algorithm can be used to remove the blaze function when a lab source spectrum is available as a reference. The reference lab spectrum can be very beneficial in situations where the science spectrum contains wide absorption lines.</p>
+<p>The ALSFS algorithm  allows users to specify 4 parameters:
+<p><li>order: order represents the spectrum to remove blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity.</li>
+  <br>
+  <li>led: the corresponding order of lab source spectrum of the order variable. It is also an n by 2 data frame.</li>
+  <br>
+<li>q: a number between 0 and 1.  Under q quantile within each window will be used to fit a local polynomial model. The default value is 0.95.</li>
+  <br>
+<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. The default value is 0.25.</li>
+</p>
+<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
+<p>The following code illustrates how we can use ALSFS algorithm in python<p>
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
@@ -100,7 +113,18 @@ df.to_csv("result1.csv", index=False)
   </code>
 </pre>
 
-### An Example to use Boundary_Correction.py:
+### Boundary_Correction.py:
+<p>The Boundary_correction functions calculares a weighted average of the blaze-removed spectrum of the two orders that can
+be used as a better estimate of the blaze function in the overlapping region.</p>
+<p>The function allows users to specify 2 parameters:
+<p><li>order1: the left order of a spectrum. An n1 by 2 dataframe.</li>
+  <br>
+  <li>order2: the right order. An n2 by 2 dataframe.</li>
+  <br>
+  
+<p>The algorithm will return a two element tuple (corrected_order1,corrected_order 2), representing the corrected version of the left order and the right order</p>
+<p>The following code illustrates how we can use Boundary_Correction in python<p>
+
 <pre>
   <code>
 # Load Essential Packages
@@ -128,6 +152,23 @@ right_order.to_csv("corrected_right_order.csv", index=False)
 </pre>
 
 ### An Example to use LS_Smoothing.py:
+<P>The LS_Smoothing function takes a raw lab source as input and returns the smoothed lab source spectrum using the AFS algorithm. </P>
+<p>The LS_Smoothing function  allows users to specify 4 parameters:
+<p><li>order: the order of raw lab source spectrum to smooth. It is an n by 2 data frame,
+   where n is the number of pixels. Each row is the wavelength and intensity at 
+   each pixel.</li>
+  <br>
+  <li> q: the parameter q, uppder q quantile within each window will be used to fit 
+  a local polynomial model. The default value is 0.95. </li>
+  <br>
+<li> d: the smoothing parameter for local polynomial regression, which is the 
+ proportion of neighboring points to be used when fitting at one point. The default value is 0.25</li>
+  <br>
+<li># qs: the parameter q_s mentioned in the paper. The upper q_s quantile is used 
+ in the stop criterion of the iteration. The default value is 0.97</li>
+</p>
+<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
+<p>The following code illustrates how we can use ALSFS algorithm in python<p>
 <pre>
   <code>
 # Load Essential Packages
