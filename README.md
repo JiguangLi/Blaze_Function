@@ -37,9 +37,9 @@ is no available corresponding lab source spectrum. </p>
 <p>The AFS algorithm  allows users to specify 3 parameters:
 <p>order: order represents the spectrum to remove blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity.
   <br>
-<li>q: a number between 0 and 1.  Under q quantile within each window will be used to fit a local polynomial model. The default value is 0.95.</li>>
+<li>q: a number between 0 and 1.  Under q quantile within each window will be used to fit a local polynomial model. The default value is 0.95.</li>
   <br>
-<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. The default value is 0.25.</li>>
+<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. The default value is 0.25.</li>
 </p>
 <p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
 <pre>
