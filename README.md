@@ -31,6 +31,7 @@ To use these two algorithms, first change the current working directory to the l
 <br> LS_Smoothing.py: An exmaple to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2
 <br>
 Data: include all the data that will be used in the usage example
+<br>
 ## Usage:
 
 
