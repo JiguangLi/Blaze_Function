@@ -47,6 +47,12 @@ data= pd.read_csv('ExampleSpectrum.csv', sep=','
 # run the AFS algorithm, where result, a one-dimensional vector, contains the blaze removed spectrum.
 result= AFS(data,0.95,0.25)
 <br>
+# If you want to plot the blaze-removed spectrum
+plt.clf()
+plt.plot(data["wv"], result, 'b', linewidth=1, label='Blaze removed spectrum python')
+plt.legend(loc='lower right')
+plt.title("AFS Result")
+<br>
 # if you want to output the result as a CSV file in your working directory, you can do the following: 
 # result1.csv contains two columns: wavelength and the blaze removed spectrum
 x=data["wv"].values
