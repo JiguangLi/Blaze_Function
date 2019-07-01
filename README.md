@@ -5,7 +5,7 @@ This repository contains the implementation of the AFS and the ALSFS algorithms 
 ## Motivation:
 The AFS and the ALSFS algorithms can be used to flatten the spectrum continuum, an important data analysis step in spectroscopic analysis. The original code was implemented in R. Here, we implemented the AFS and the ALSFS algorithms in Python which will be convenient for astronomers to work with. 
 
-## Prerequisite:
+## Prerequisites:
 The following python packages are required to run the AFS and the ALSFS algorithms: 
 <br><a href="https://pandas.pydata.org/"> Pandas </a> : used for data analysis 
 <br><a href="https://www.numpy.org/"> Numpy </a> : used for scientific computing
