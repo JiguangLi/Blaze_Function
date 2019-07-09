@@ -3,7 +3,7 @@
 This repository contains the implementation of the Alpha-shape Fitting to Spectrum algorithm (AFS) and the Alpha-shape and Lab Source Fitting to Spectrum algorithm (ALSFS) in Python proposed by Xin Xu et al (2019), whose paper is available  <a href="https://arxiv.org/pdf/1904.10065.pdf"> here </a>.  </p>
 
 ## Motivation:
-The AFS and the ALSFS algorithms can be used to flatten the spectrum continuum, an important data analysis step in spectroscopic analysis. The  <a href="(https://github.com/xinxuyale/AFS"> originalcode </a> was implemented in R, and the algorithms implemented here are the AFS and the ALSFS algorithms in Python
+The AFS and the ALSFS algorithms can be used to flatten the spectrum continuum, an important data analysis step in spectroscopic analysis. The <a href="https://github.com/xinxuyale/AFS"> original code </a> was implemented in R, and the algorithms implemented here are the AFS and the ALSFS algorithms in Python.
 
 ## Prerequisites:
 The following Python packages are required to run the AFS and the ALSFS algorithms: 
