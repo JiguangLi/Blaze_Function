@@ -164,11 +164,11 @@ right_order.to_csv("corrected_right_order.csv", index=False)
   <br>
 <li> d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25.</li>
   <br>
-<li># qs: the parameter q_s mentioned in the section 2.2.2 of the paper. It should be a number between 0.95 and 0.99 and the default value is 0.97. The upper q_s quantile is used 
+<li> qs: the parameter q_s mentioned in the section 2.2.2 of the paper. It should be a number between 0.95 and 0.99 and the default value is 0.97. The upper q_s quantile is used 
  in the stop criterion of the iteration. The larger q_s is, the less iterations will happen and less spikes will be excluded.</li>
 </p>
 <p>The algorithm will return the smoothed lab source spectrum, an n by 2 dataframe.</p>
-<p>The following code illustrates how we can use LS_Smoothing in Python<p>
+<p>The following code illustrates how we can use LS_Smoothing in Python.<p>
 <pre>
   <code>
 # Load Essential Packages
