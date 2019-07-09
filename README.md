@@ -200,7 +200,7 @@ we can start with the default value of d and tune
 the parameter q within the range according to its S/N and amount of absorption.
 </p>
 <p>
-The ALSFS algorithm has the same parameters as AFS and can be determined in a similar fashion. In ALSFS, d has less influence on the results than for the AFS algorithm. The quantile parameter q epends on the appearances of spikes. If spikes are long, use a smaller q such as 0.95; if spikes are very small, use a larger q such as 0.98 or 0.99. </p>
+The ALSFS algorithm has the same parameters as AFS and can be determined in a similar fashion. In lab source spectrum smoothing process, the quantile parameter qs epends on the appearances of spikes. If spikes are long, use a smaller qs such as 0.95; if spikes are very small, use a larger q such as 0.98 or 0.99. </p>
 
 
 
