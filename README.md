@@ -1,12 +1,12 @@
 # Two Methods to Remove Blaze Function from Echelle Spectrum Orders: AFS and ALSFS in Python
 
-This repository contains the implementation of the AFS and the ALSFS algorithms in python proposed by Xin Xu, Jessi Cisewski-Kehe, et al, whose paper is available  <a href="https://arxiv.org/pdf/1904.10065.pdf"> here </a>.  </p>
+This repository contains the implementation of the Alpha-shape Fitting to Spectrum algorithm (AFS) and the Alpha-shape and Lab Source Fitting to Spectrum algorithm (ALSFS) in Python proposed by Xin Xu et al (2019), whose paper is available  <a href="https://arxiv.org/pdf/1904.10065.pdf"> here </a>.  </p>
 
 ## Motivation:
-The AFS and the ALSFS algorithms can be used to flatten the spectrum continuum, an important data analysis step in spectroscopic analysis. The original code was implemented in R. Here, we implemented the AFS and the ALSFS algorithms in Python which will be convenient for astronomers to work with. 
+The AFS and the ALSFS algorithms can be used to flatten the spectrum continuum, an important data analysis step in spectroscopic analysis. The  <a href="(https://github.com/xinxuyale/AFS"> original code </a> was implemented in R, and the algorithms implemented here are the AFS and the ALSFS algorithms in Python
 
 ## Prerequisites:
-The following python packages are required to run the AFS and the ALSFS algorithms: 
+The following Python packages are required to run the AFS and the ALSFS algorithms: 
 <br><a href="https://pandas.pydata.org/"> Pandas </a> : used for data analysis 
 <br><a href="https://www.numpy.org/"> Numpy </a> : used for scientific computing
 <br><a href="https://pypi.org/project/alphashape/"> alphashape </a>: used for calculation of the alphashape of a geometric object
@@ -26,25 +26,25 @@ AFS.py: implementation of the AFS algorithm. It can produce the same result as X
 <br>
 <br> Boundary_Correction.py: calculate the weighted average of the blaze-removed spectrum of the two orders to correct the boundary of spectrums and to estimate the blaze function in the overlapping region. The method is discussed in section 2.4.1 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>. 
 <br>
-<br> LS_Smoothing.py: An exmaple to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>.
+<br> LS_Smoothing.py: An example to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>.
 <br>
 <br> All files in csv format are used as examples to show how to apply the algorithms above. See the Usage section below.
 <br>
 
 ## Usage:
 ### AFS.py:
-</p>AFS algorithm can be used to remove the blaze function of s spectrum when this
+</p>AFS algorithm can be used to remove the blaze function of a spectrum when there
 is no available corresponding lab source spectrum. </p>
 
 <p>The AFS algorithm  allows users to specify 3 parameters:
-<p><li>order: order represents the spectrum to remove blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity.</li>
+<p><li>order: order represents the order of the spectrum of which to remove the blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity. </li>
   <br>
-<li>q: a number between 0 and 1.  Under q quantile within each window will be used to fit a local polynomial model. The default value is 0.95.</li>
+<li>q: a number between 0 and 1. The q quantile of fluxes within each local window of the spectrum will be used to fit a local polynomial model. The default value is 0.95. The desire is to select a q so that points in absorption lines are avoided.</li>
   <br>
-<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. The default value is 0.25.</li>
+<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25. </li>
 </p>
 <p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
-<p>The following code illustrates how we can use AFS algorithm in python<p>
+<p>The following code illustrates how we can use AFS algorithm in Python<p>
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
@@ -60,7 +60,7 @@ result= AFS(data,0.95,0.25)
 <br>
 # If you want to plot the blaze-removed spectrum
 plt.clf()
-plt.plot(data["wv"], result, 'b', linewidth=1, label='Blaze removed spectrum python')
+plt.plot(data["wv"], result, 'b', linewidth=1, label='Blaze removed spectrum Python')
 plt.legend(loc='lower right')
 plt.title("AFS Result")
 <br>
@@ -74,18 +74,18 @@ df.to_csv("result1.csv", index=False)
 </pre>
 
 ### ALSFS.py:
-<P>The ALSFS algorithm can be used to remove the blaze function when a lab source spectrum is available as a reference. The reference lab spectrum can be very beneficial in situations where the science spectrum contains wide absorption lines.</p>
+<P>The ALSFS algorithm can be used to remove the blaze function when a lab source spectrum is available as a reference. The reference lab spectrum can be beneficial in situations where the science spectrum contains wide absorption lines.</p>
 <p>The ALSFS algorithm  allows users to specify 4 parameters:
-<p><li>order: order represents the spectrum to remove blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity.</li>
+<p><li>order: order represents the order of the spectrum of which to remove the blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity. </li>
   <br>
-  <li>led: the corresponding order of lab source spectrum of the order variable. It is also an n by 2 data frame.</li>
+  <li>led: led represents the corresponding order of the lab source spectrum. It is also an n by 2 data frame, in which the first column records wavelength and the second column records intensity.</li>
   <br>
-<li>q: a number between 0 and 1.  Under q quantile within each window will be used to fit a local polynomial model. The default value is 0.95.</li>
+<li>q: a number between 0 and 1. The q quantile of fluxes within each local window of the spectrum will be used to fit a local polynomial model. The default value is 0.95. The desire is to select a q so that points in absorption lines are avoided.</li>
   <br>
-<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. The default value is 0.25.</li>
+<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25. </li>
 </p>
 <p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
-<p>The following code illustrates how we can use ALSFS algorithm in python<p>
+<p>The following code illustrates how we can use ALSFS algorithm in Python<p>
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
@@ -102,7 +102,7 @@ print(result)
 <br>
 #If you want to plot the blaze-removed spectrum
 plt.clf()
-plt.plot(data["wv"], result, 'b', linewidth=1, label='Blaze removed spectrum python')
+plt.plot(data["wv"], result, 'b', linewidth=1, label='Blaze removed spectrum Python')
 plt.legend(loc='lower right')
 plt.title("ALSFS Result")
 <br>
@@ -119,13 +119,13 @@ df.to_csv("result1.csv", index=False)
 <p>The Boundary_correction functions calculares a weighted average of the blaze-removed spectrum of the two orders that can
 be used as a better estimate of the blaze function in the overlapping region.</p>
 <p>The function allows users to specify 2 parameters:
-<p><li>order1: the left order of a spectrum. An n1 by 2 dataframe.</li>
+<p><li>order1: the left order of a spectrum, which is an n1 by 2 dataframe, in which the first column records wavelength and the second column records intensity.</li>
   <br>
-  <li>order2: the right order. An n2 by 2 dataframe.</li>
+  <li>order2: the right order of a spectrum, which is an n2 by 2 dataframe, in which the first column records wavelength and the second column records intensity.</li>
   <br>
   
 <p>The algorithm will return a two element tuple (corrected_order1,corrected_order 2), representing the corrected version of the left order and the right order</p>
-<p>The following code illustrates how we can use Boundary_Correction in python<p>
+<p>The following code illustrates how we can use Boundary_Correction in Python<p>
 
 <pre>
   <code>
@@ -155,22 +155,20 @@ right_order.to_csv("corrected_right_order.csv", index=False)
 
 ### An Example to use LS_Smoothing.py:
 <P>The LS_Smoothing function takes a raw lab source as input and returns the smoothed lab source spectrum using the AFS algorithm. </P>
-<p>The LS_Smoothing function  allows users to specify 4 parameters:
-<p><li>order: the order of raw lab source spectrum to smooth. It is an n by 2 data frame,
-   where n is the number of pixels. Each row is the wavelength and intensity at 
-   each pixel.</li>
+<p>The LS_Smoothing function allows users to specify 4 parameters:
+
+<p><li>order: order represents the order of raw lab source spectrum of which to smooth. It is an n by 2 data frame,
+    in which the first column records wavelength and the second column records intensity. </li>
   <br>
-  <li> q: the parameter q, uppder q quantile within each window will be used to fit 
-  a local polynomial model. The default value is 0.95. </li>
+  <li> q: a number between 0 and 1. The q quantile of fluxes within each local window of the spectrum will be used to fit a local polynomial model. The default value is 0.95. The desire is to select a q so that points in absorption lines are avoided. </li>
   <br>
-<li> d: the smoothing parameter for local polynomial regression, which is the 
- proportion of neighboring points to be used when fitting at one point. The default value is 0.25</li>
+<li> d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25.</li>
   <br>
-<li># qs: the parameter q_s mentioned in the paper. The upper q_s quantile is used 
- in the stop criterion of the iteration. The default value is 0.97</li>
+<li># qs: the parameter q_s mentioned in the section 2.2.2 of the paper. It should be a number between 0.95 and 0.99 and the default value is 0.97. The upper q_s quantile is used 
+ in the stop criterion of the iteration. The larger q_s is, the less iterations will happen and less spikes will be excluded.</li>
 </p>
 <p>The algorithm will return the smoothed lab source spectrum, an n by 2 dataframe.</p>
-<p>The following code illustrates how we can use LS_Smoothing in python<p>
+<p>The following code illustrates how we can use LS_Smoothing in Python<p>
 <pre>
   <code>
 # Load Essential Packages
