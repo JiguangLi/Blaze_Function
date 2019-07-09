@@ -43,8 +43,8 @@ is no available corresponding lab source spectrum. </p>
   <br>
 <li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25. </li>
 </p>
-<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
-<p>The following code illustrates how we can use AFS algorithm in Python<p>
+<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum.</p>
+<p>The following code illustrates how we can use AFS algorithm in Python.<p>
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
@@ -53,7 +53,7 @@ from AFS import *
 <br>
 # read the input csv file as a pandas dataframe,
 # ExampleSpectrum.csv should have two columns: wavelength and intensity
-data= pd.read_csv('ExampleSpectrum.csv', sep=','
+data= pd.read_csv('ExampleSpectrum.csv', sep=',')
 <br>
 # run the AFS algorithm, where result, a one-dimensional vector, contains the blaze removed spectrum.
 result= AFS(data,0.95,0.25)
@@ -84,8 +84,8 @@ df.to_csv("result1.csv", index=False)
   <br>
 <li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25. </li>
 </p>
-<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum</p>
-<p>The following code illustrates how we can use ALSFS algorithm in Python<p>
+<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum.</p>
+<p>The following code illustrates how we can use ALSFS algorithm in Python.<p>
 <pre>
   <code>
 # load essential packages, make sure you have downloaded the repository
@@ -124,8 +124,8 @@ be used as a better estimate of the blaze function in the overlapping region.</p
   <li>order2: the right order of a spectrum, which is an n2 by 2 dataframe, in which the first column records wavelength and the second column records intensity.</li>
   <br>
   
-<p>The algorithm will return a two element tuple (corrected_order1,corrected_order 2), representing the corrected version of the left order and the right order</p>
-<p>The following code illustrates how we can use Boundary_Correction in Python<p>
+<p>The algorithm will return a two element tuple (corrected_order1,corrected_order 2), representing the corrected version of the left order and the right order.</p>
+<p>The following code illustrates how we can use Boundary_Correction in Python.<p>
 
 <pre>
   <code>
