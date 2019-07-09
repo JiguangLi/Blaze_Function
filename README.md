@@ -26,7 +26,7 @@ AFS.py: implementation of the AFS algorithm. It can produce the same result as X
 <br>
 <br> Boundary_Correction.py: calculate the weighted average of the blaze-removed spectrum of the two orders to correct the boundary of spectrums and to estimate the blaze function in the overlapping region. The method is discussed in section 2.4.1 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>. 
 <br>
-<br> LS_Smoothing.py: An example to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>.
+<br> LS_Smoothing.py: an example to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>.
 <br>
 <br> All files in csv format are used as examples to show how to apply the algorithms above. See the Usage section below.
 <br>
