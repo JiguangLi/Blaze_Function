@@ -190,7 +190,7 @@ result.to_csv("smooth lab source.csv", index=False)
 ## Some advice on parameter selection from the paper:
 <p>There are two parameters in the AFS Algorithm:</p>
 <p>
-q: selecting a good value of q means selecting points on the spectrum that do not drop into absorption lines. In general, If the S/N is high or the absorption is large, a larger q is needed to select points in S so that few points fall in absorption lines; if S/N is low or there is minimal absorption, a smaller q is needed to get enough points. As a rule of thumb,  a q from 0.95 to 0.99 works for S/N 300, a q from 0.85 to 0.95 works for S/N 150, and a q from 0.5 to 0.85 works for S/N lower than 150.</p>
+q: selecting a good value of q means selecting points on the spectrum that do not drop into absorption lines. We define S/N as the signal-to-noise ratio, which is the ratio of the power of a signal to the power of background noise. In general, If the S/N is high or the absorption is large, a larger q is needed to select points in the source so that few points fall in absorption lines; if S/N is low or there is minimal absorption, a smaller q is needed to get enough points. As a rule of thumb,  a q from 0.95 to 0.99 works for S/N 300, a q from 0.85 to 0.95 works for S/N 150, and a q from 0.5 to 0.85 works for S/N lower than 150.</p>
 <p>
 d: If there are many absorption lines or any absorption lines that are wide, a large d is needed to get a good estimate. If there are few absorption lines or absorption lines that are narrow, a small d is needed so that the estimation better adapts to local regions. A range between 0.15-0.3 is usually a good starting point to find the right value of d.
 </p>
