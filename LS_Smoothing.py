@@ -192,16 +192,3 @@ def LSS(order, q = 0.95, d=0.25, qs=0.97):
 
 
 
-
-
-#data= pd.read_csv("RawLabSource.csv", sep=',')
-#result= LSS(data, 0.98, 0.25, 0.97)
-#print(result)
-
-    
-
-
-
-
-
-
