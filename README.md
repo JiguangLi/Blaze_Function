@@ -50,6 +50,7 @@ is no available corresponding lab source spectrum. </p>
 # load essential packages, make sure you have downloaded the repository
 import pandas as pd
 from AFS import *
+import matplotlib.pyplot as plt
 <br>
 # read the input csv file as a pandas dataframe,
 # ExampleSpectrum.csv should have two columns: wavelength and intensity
@@ -60,6 +61,7 @@ result= AFS(data,0.95,0.25)
 <br>
 # If you want to plot the blaze-removed spectrum
 plt.clf()
+plt.figure(figsize=(10,5))
 plt.plot(data["wv"], result, 'b', linewidth=1, label='Blaze removed spectrum Python')
 plt.legend(loc='lower right')
 plt.title("AFS Result")
@@ -102,6 +104,7 @@ print(result)
 <br>
 #If you want to plot the blaze-removed spectrum
 plt.clf()
+plt.figure(figsize=(10,5))
 plt.plot(data["wv"], result, 'b', linewidth=1, label='Blaze removed spectrum Python')
 plt.legend(loc='lower right')
 plt.title("ALSFS Result")
@@ -116,7 +119,7 @@ df.to_csv("result1.csv", index=False)
 </pre>
 
 ### Boundary_Correction.py:
-<p>The Boundary_correction functions calculares a weighted average of the blaze-removed spectrum of the two orders that can
+<p>The Boundary_correction functions calculates a weighted average of the blaze-removed spectrum of the two orders that can
 be used as a better estimate of the blaze function in the overlapping region.</p>
 <p>The function allows users to specify 2 parameters:
 <p><li>order1: the left order of a spectrum, which is an n1 by 2 dataframe, in which the first column records wavelength and the second column records intensity.</li>
