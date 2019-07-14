@@ -180,14 +180,4 @@ def ALSFS (order, led, q = 0.95, d = 0.25):
     B2=param[1]*led["intens"].values+param[2]*led["wv"].values+param[0]
    
     return order["intens"].values/B2
-    
-    
-# =============================================================================
-# data= pd.read_csv('ExampleSpectrum.csv', sep=',')
-# source= pd.read_csv('LabSource.csv', sep=',')
-# result= ALSFS(data,source,0.95,0.25)
-# print(result)
-# 
-# =============================================================================
-
 
