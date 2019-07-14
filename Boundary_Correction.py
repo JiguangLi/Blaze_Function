@@ -48,12 +48,3 @@ def Boundary_correction(order1,order2):
 
 
 
-
-
-    
-
-# =============================================================================
-# left_data= pd.read_csv('left_order.csv', sep=',')
-# right_data= pd.read_csv('right_order.csv', sep=',')
-# result= Boundary_correction(left_data,right_data)
-# =============================================================================
