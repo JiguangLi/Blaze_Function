@@ -47,6 +47,8 @@ def find_vertices(polygon,ref):
     
 # Return variable: blaze-removed spectrum
 def ALSFS (order, led, q = 0.95, d = 0.25):
+    # Allow Chain Assignment in Pandas
+    pd.options.mode.chained_assignment = None
     # Default value of q and d are 0.95 and 0.25.
     # Change the column names and format of the dataset.
     order.columns=["wv","intens"]
