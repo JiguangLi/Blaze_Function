@@ -164,18 +164,4 @@ def AFS (order, q = 0.95, d = 0.25):
 
 
 
-# =============================================================================
-# 
-# data= pd.read_csv('ExampleSpectrum.csv', sep=',')
-# result= AFS(data,0.95,0.25)
-# np.savetxt("update_result.csv", result, delimiter=",", fmt="%s")
-# print(result)
-# 
-# =============================================================================
-
-
-
-
-
-
 
