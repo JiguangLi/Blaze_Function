@@ -28,6 +28,14 @@ AFS.py: implementation of the AFS algorithm. It can produce the same result as X
 <br>
 <br> LS_Smoothing.py: an example to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>.
 <br>
+demo.pdf: sample codes and their expected output in pdf version
+<br>
+<br>
+ALSFS_result_comparision.csv: records the discrepancy in output between Xin's original code and my code
+<br>
+<br>
+ALSFS_comparision.png: a plot demonstrating the discrepancy in output between Xin's original code and my code
+<br>
 <br> All files in csv format are used as examples to show how to apply the algorithms above. See the Usage section below.
 <br>
 
