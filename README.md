@@ -24,20 +24,20 @@ AFS.py: implementation of the AFS algorithm. It can produce the same result as X
 <br>
 <br> ALSFS.py: implementation of the ALSFS algorithm. The final result might slightly differ from Xin's original code because the minimize function from scipy and the optim function from R sometimes can produce different results for the same optimazation problem.
 <br>
-<br> Boundary_Correction.py: calculate the weighted average of the blaze-removed spectrum of the two orders to correct the boundary of spectrums and to estimate the blaze function in the overlapping region. The method is discussed in section 2.4.1 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>. 
+<br> Boundary_Correction.py: calculate the weighted average of the blaze-removed spectrum of the two orders to correct the boundary of spectrums and to estimate the blaze function in the overlapping region. The method is discussed in section 2.4.1 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper. </a>
 <br>
-<br> LS_Smoothing.py: an example to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper </a>.
-<br>
-<br>
-demo.pdf: sample codes and their expected output in pdf version
+<br> LS_Smoothing.py: an example to use AFS to smooth the raw lab source spectrum, as discussed in section 2.2.2 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper. </a>
 <br>
 <br>
-ALSFS_result_comparision.csv: records the discrepancy in output between Xin's original code and my code
+demo.pdf: sample codes and their expected output in pdf version.
 <br>
 <br>
-ALSFS_comparision.png: a plot demonstrating the discrepancy in output between Xin's original code and my code
+ALSFS_result_comparision.csv: records the discrepancy in output between Xin's original code and my code.
 <br>
-<br> All files in csv format are used as examples to show how to apply the algorithms above. See the Usage section below.
+<br>
+ALSFS_comparision.png: a plot demonstrating the discrepancy in output between Xin's original code and my code.
+<br>
+<br> All the other csv files are used as examples to show how to apply the algorithms above. See the Usage section below.
 <br>
 
 ## Usage:
