@@ -6,7 +6,7 @@ This repository contains the implementation of the Alpha-shape Fitting to Spectr
 The AFS and the ALSFS algorithms can be used to flatten the spectrum continuum, an important data analysis step in spectroscopic analysis. The <a href="https://github.com/xinxuyale/AFS"> original code </a> was implemented in R, and the algorithms implemented here are the AFS and the ALSFS algorithms in Python.
 
 ## Prerequisites:
-The following Python packages are required to run the AFS and the ALSFS algorithms: 
+The following Python packages are required in order to run the AFS and the ALSFS algorithms: 
 <br><a href="https://pandas.pydata.org/"> Pandas </a> : used for data analysis 
 <br><a href="https://www.numpy.org/"> Numpy </a> : used for scientific computing
 <br><a href="https://pypi.org/project/alphashape/"> alphashape </a>: used for calculation of the alphashape of a geometric object
@@ -15,14 +15,13 @@ The following Python packages are required to run the AFS and the ALSFS algorith
 <br><a href="https://www.scipy.org/"> scipy </a>: used for optimaztion problem appeared in the end of the ALSFS algorithm
 
 ## Installation:
-To use these two algorithms, first change the current working directory to the location where you want the cloned directory to be made on terminal. Then type the following command on terminal:
+To use these two algorithms, you can first change the current working directory to the location where you want the cloned directory to be made on terminal. Then type the following command on terminal:
 <br> <code> git clone https://github.com/JiguangLi/Blaze_Function.git </code>
-<br> You will then be ready to go.
 
 ## Descriptions of files:
 AFS.py: implementation of the AFS algorithm. It can produce the same result as Xin's original R code.
 <br>
-<br> ALSFS.py: implementation of the ALSFS algorithm. The final result might slightly differ from Xin's original code because the minimize function from scipy and the optim function from R sometimes can produce different results for the same optimazation problem.
+<br> ALSFS.py: implementation of the ALSFS algorithm. The final result might slightly differ from Xin's original code because the minimize function from scipy and the optim function from R sometimes can produce different results for the same optimazation problem. You can check such discrepancy in result_comparision.csv and ALSFS_comparision.png.
 <br>
 <br> Boundary_Correction.py: calculate the weighted average of the blaze-removed spectrum of the two orders to correct the boundary of spectrums and to estimate the blaze function in the overlapping region. The method is discussed in section 2.4.1 of the <a href="https://arxiv.org/pdf/1904.10065.pdf"> paper. </a>
 <br>
