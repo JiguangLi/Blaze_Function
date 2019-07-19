@@ -179,7 +179,7 @@ def AFS (order, a=6, q=0.95, d=0.25):
 # d: the smoothing parameter for local polynomial regression, which is the 
 #   proportion of neighboring points to be used when fitting at one point. 
 
-<<<<<<< HEAD
+
 def AFS_d(directory,name, a=6, q = 0.95, d = 0.25):
      path=directory+"/"+name
      p = Path(path)
@@ -204,8 +204,3 @@ def AFS_d(directory,name, a=6, q = 0.95, d = 0.25):
      else:
          raise Exception("directory or file doesn't exist")
          
-=======
-
-
-
->>>>>>> 55d0f34ea380380752214f9ae7e766e8f935522d
