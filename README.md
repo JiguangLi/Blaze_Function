@@ -110,19 +110,18 @@ from AFS import *
 <br>
 # Suppose you want to run the AFS_d algorithm on a filename called ExampleSpectrum.csv at the directory 
 # /Users/jiguangli/Blaze_Function.
-# To get the blaze removed function, simply type the following, where result is a one-dimensional vector recording the 
-# normalized spectrum:
+# To get the blaze removed function, simply type the following, where result 
+# is a one-dimensional vector recording the normalized spectrum:
 <br>
 result=AFS_d("/Users/jiguangli/Blaze_Function⁨⁩","ExampleSpectrum.csv",a=6,q=0.95,d=0.25) 
   </code>
 </pre>
   
 
-
-
 ## Usage:ALSFS.py:
+### def ALSFS (order, led, a=6, q = 0.95, d = 0.25):
 <P>The ALSFS algorithm can be used to remove the blaze function when a lab source spectrum is available as a reference. The reference lab spectrum can be beneficial in situations where the science spectrum contains wide absorption lines.</p>
-<p>The ALSFS algorithm  allows users to specify 4 parameters:
+<p>The ALSFS algorithm  allows users to specify 5 parameters:
 <p><li>order: order represents the order of the spectrum of which to remove the blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity. </li>
   <br>
   <li>led: led represents the corresponding order of the lab source spectrum. It is also an n by 2 data frame, in which the first column records wavelength and the second column records intensity.</li>
@@ -147,7 +146,7 @@ import matplotlib.pyplot as plt
 # data is the input spectrum and source is the lab source, each of which is n by 2 matrix
 data= pd.read_csv('ExampleSpectrum.csv', sep=',')
 source= pd.read_csv('LabSource.csv', sep=',')
-result= ALSFS(data,source,0.95,0.25)
+result= ALSFS(data,source,6, 0.95,0.25)
 print(result)
 <br>
 #If you want to plot the blaze-removed spectrum
@@ -163,6 +162,43 @@ plt.title("ALSFS Result")
 x=data["wv"].values
 df=pd.DataFrame({"wv":x,"intens":result})
 df.to_csv("result1.csv", index=False)   
+  </code>
+</pre>
+
+### def ALSFS_d(o_directory,o_name,s_directory,s_name, a=6, q = 0.95, d = 0.25):
+</p> Similar to the ALSFS function above, ALSFS_d function takes the directories and filenames of an order and its labsource to computes its blaze removed spectrum using the ALSFS algorithm, while still allowing users to specify all the parameters mention above. The files can be either in a csv or a fits format. The first two columns of the file must contain wavelength and intensity respectively.
+<p> Hence, the AFS_d function allows users to specify 7 parameters: </p>
+
+<p><li> o_directory: a string represnting the directory of the order </li>
+  <br>
+  <li> o_ name: a string represnting the filename of the order. It must have either csv or fits format. More importantly, the first two columns of the files must record wavelength and intensity respectively. </li>
+  <br>
+  <li> s_directory: a string represnting the directory of the labsource </li>
+  <br>
+  <li> s_name: a string represnting the filename of the labsource. It must have either csv or fits format. More importantly, the first two columns of the files must record wavelength and intensity respectively. </li>
+  <br>
+<li>a: a number between 3 and 12. It determines the value of alpha parameter in calculating alphashape, which is defined as the range of wavelength diveded by a. The default value of a is 6. </li>
+  <br>
+<li>q: a number between 0 and 1. The q quantile of fluxes within each local window of the spectrum will be used to fit a local polynomial model. The default value is 0.95. The desire is to select a q so that points in absorption lines are avoided.</li>
+  <br>
+<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25. </li>
+</p>
+<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum.</p>
+<p>The following code illustrates how we can use ALSFS_d algorithm in Python.<p>
+  
+ <pre>
+  <code>
+# load essential packages, make sure you have downloaded the repository
+import pandas as pd
+from ALSFS import *
+<br>
+# Suppose you want to run the AFS_d algorithm on a filename called ExampleSpectrum.csv at the directory 
+# /Users/jiguangli/Blaze_Function.
+# The corresponding labsouce has file name LabSource.csv and is at the same directory as that of its order.
+# To get the blaze removed function, simply type the following, where result 
+# is a one-dimensional vector recording the normalized spectrum:
+<br>
+result=ALSFS_d("/Users/jiguangli/Blaze_Function⁨⁩","ExampleSpectrum.csv","/Users/jiguangli/Blaze_Function⁨⁩","LabSource.csv" a=6,q=0.95,d=0.25) 
   </code>
 </pre>
 
@@ -205,8 +241,9 @@ right_order.to_csv("corrected_right_order.csv", index=False)
 </pre>
 
 ## Usage: LS_Smoothing.py:
+### LSS(order, a=6, q = 0.95, d=0.25, qs=0.97):
 <P>The LS_Smoothing function takes a raw lab source as input and returns the smoothed lab source spectrum using the AFS algorithm. </P>
-<p>The LS_Smoothing function allows users to specify 4 parameters:
+<p>The LS_Smoothing function allows users to specify 5 parameters:
 
 <p><li>order: order represents the order of raw lab source spectrum of which to smooth. It is an n by 2 data frame,
     in which the first column records wavelength and the second column records intensity. </li>
@@ -233,7 +270,7 @@ import matplotlib.pyplot as plt
 #input the Raw lab source in csv format
 # result records a smooth version of the raw lab source as a dataframe
 data= pd.read_csv("RawLabSource.csv", sep=',')
-result= LSS(data, 0.98, 0.25, 0.97)
+result= LSS(data, 6, 0.98, 0.25, 0.97)
 <br>
 # To output the result in a csv file
 result.to_csv("smooth lab source.csv", index=False)
@@ -241,8 +278,49 @@ result.to_csv("smooth lab source.csv", index=False)
 </pre>
 <br>
 
+### def LSS_d(directory,name, a=6, q = 0.95, d = 0.25, qs=0.97):
+
+</p> Similar to the LSS function above, LSS_d function takes the directory and filename of a raw labsource and smooth the spectrum using the AFS algorithm, while still allowing users to specify all the parameters mention above. The file can be either in a csv or a fits format. The first two columns of the file must contain wavelength and intensity respectively.
+<p> Hence, the AFS_d function allows users to specify 6 parameters: </p>
+
+<p><li> directory: a string represnting the directory of the raw labsource </li>
+  <br>
+  <li> name: a string represnting the filename of the raw labsource. It must have either csv or fits format. More importantly, the first two columns of the files must record wavelength and intensity respectively. </li>
+  <br>
+<li>a: a number between 3 and 12. It determines the value of alpha parameter in calculating alphashape, which is defined as the range of wavelength diveded by a. The default value of a is 6. </li>
+  <br>
+<li>q: a number between 0 and 1. The q quantile of fluxes within each local window of the spectrum will be used to fit a local polynomial model. The default value is 0.95. The desire is to select a q so that points in absorption lines are avoided.</li>
+  <br>
+<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25. </li>
+  <br>
+<li> qs: the parameter q_s mentioned in the section 2.2.2 of the paper. It should be a number between 0.95 and 0.99 and the default value is 0.97. The upper q_s quantile is used 
+ in the stop criterion of the iteration. The larger q_s is, the less iterations will happen and less spikes will be excluded.</li>
+</p>
+<p>The algorithm will return the smoothed lab source spectrum, an n by 2 dataframe.</p>
+<p>The following code illustrates how we can use AFS_d algorithm in Python.<p>
+  
+ <pre>
+  <code>
+# load essential packages, make sure you have downloaded the repository
+import pandas as pd
+from LS_Smoothing import *
+<br>
+# Suppose you want to run the LSS algorithm on a filename called RawLabSource.csv at the directory 
+# /Users/jiguangli/Blaze_Function.
+# To smooth the row labsouce, simply type the following, where result 
+# is a dataframe recording the smoother version of the raw labsource:
+<br>
+result=LSS_d("/Users/jiguangli/Blaze_Function⁨⁩","RawLabSource.csv",a=6,q=0.95,d=0.25,qs=0.97) 
+  </code>
+</pre>
+
+
 ## Some advice on parameter selection from the paper:
 <p>There are two parameters in the AFS Algorithm:</p>
+
+<p>
+a: a determines the value of alpha in calculating the alphashape of a blaze function, where alpha= (range of wavelength)/a. The disire is to select an a that can capture the convex parts (not too large) of a spectrum, but will not go too deep into absorption lines (not too small). Notice that the larger a is, the smaller alpha will be. The advised value of a should be a number between 3 and 12. The default value is 6. When there is a large absorption lines, it would be a good idea to increase the value of alpha (hence decrease the value of a) so that the esitimation would not go too deep into the absorption line.</p>
+
 <p>
 q: selecting a good value of q means selecting points on the spectrum that do not drop into absorption lines. We define S/N as the signal-to-noise ratio, which is the ratio of the power of a signal to the power of background noise. In general, If the S/N is high or the absorption is large, a larger q is needed to select points in the source so that few points fall in absorption lines; if S/N is low or there is minimal absorption, a smaller q is needed to get enough points. As a rule of thumb,  a q from 0.95 to 0.99 works for S/N 300, a q from 0.85 to 0.95 works for S/N 150, and a q from 0.5 to 0.85 works for S/N lower than 150.</p>
 <p>
