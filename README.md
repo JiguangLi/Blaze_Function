@@ -40,7 +40,7 @@ ALSFS_comparision.png: a plot demonstrating the discrepancy in output between Xi
 <br>
 
 ## Usage: AFS.py:
-### AFS(order, a, q, d)
+### AFS (order, a=6, q=0.95, d=0.25):
 </p>AFS algorithm can be used to remove the blaze function of a spectrum when there
 is no available corresponding lab source spectrum. </p>
 
@@ -85,7 +85,36 @@ df.to_csv("result1.csv", index=False)
   </code>
 </pre>
 
-### AFS_d(order, a, q, d)
+### AFS_d(directory,name, a=6, q = 0.95, d = 0.25):
+</p> Similar to the AFS function above, AFS_d function takes the directory and filename of an order and computes its blaze function using the AFS algorithm, while still allowing users to specify all the parameters mention above. The file can be either in a csv or a fits format. The first two columns of the file must contain wavelength and intensity respectively.
+<p> Hence, the AFS_d function allows users to specify 5 parameters: </p>
+
+<p><li> directory: a string represnting the directory of the order </li>
+  <br>
+  <li> name: a string represnting the filename of the order. It must have either csv or fits format. More importantly, the first two columns of the files must record wavelength and intensity respectively. </li>
+  <br>
+<li>a: a number between 3 and 12. It determines the value of alpha parameter in calculating alphashape, which is defined as the range of wavelength diveded by a. The default value of a is 6. </li>
+  <br>
+<li>q: a number between 0 and 1. The q quantile of fluxes within each local window of the spectrum will be used to fit a local polynomial model. The default value is 0.95. The desire is to select a q so that points in absorption lines are avoided.</li>
+  <br>
+<li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25. </li>
+</p>
+<p>The algorithm will return a one dimensional vector with length n, representing the blaze removed spectrum.</p>
+<p>The following code illustrates how we can use AFS_d algorithm in Python.<p>
+  
+ <pre>
+  <code>
+# load essential packages, make sure you have downloaded the repository
+import pandas as pd
+from AFS import *
+<br>
+# Suppose you want to run the AFS_d algorithm on a filename called ExampleSpectrum.csv at the directory /Users/jiguangli/Blaze_Function
+# To get the blaze removed function, simply type the following, where result is a one-dimensional vector recording the normalized spectrum:
+result=AFS_d("/Users/jiguangli/Blaze_Function⁨⁩","ExampleSpectrum.csv",a=6,q=0.95,d=0.25) 
+  </code>
+</pre>
+  
+
 
 
 ## Usage:ALSFS.py:
