@@ -39,12 +39,12 @@ ALSFS_comparision.png: a plot demonstrating the discrepancy in output between Xi
 <br> All the other csv files are used as examples to show how to apply the algorithms above. See the Usage section below.
 <br>
 
-## Usage:
-### AFS.py:
+## Usage: AFS.py:
+### AFS(order, a, q, d)
 </p>AFS algorithm can be used to remove the blaze function of a spectrum when there
 is no available corresponding lab source spectrum. </p>
 
-<p>The AFS algorithm  allows users to specify 3 parameters:
+<p>The AFS algorithm  allows users to specify 4 parameters:
 <p><li>order: order represents the order of the spectrum of which to remove the blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity. </li>
   <br>
 <li>a: a number between 3 and 12. It determines the value of alpha parameter in calculating alphashape, which is defined as the range of wavelength diveded by a. The default value of a is 6. </li>
@@ -85,7 +85,10 @@ df.to_csv("result1.csv", index=False)
   </code>
 </pre>
 
-### ALSFS.py:
+### AFS_d(order, a, q, d)
+
+
+## Usage:ALSFS.py:
 <P>The ALSFS algorithm can be used to remove the blaze function when a lab source spectrum is available as a reference. The reference lab spectrum can be beneficial in situations where the science spectrum contains wide absorption lines.</p>
 <p>The ALSFS algorithm  allows users to specify 4 parameters:
 <p><li>order: order represents the order of the spectrum of which to remove the blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity. </li>
@@ -131,7 +134,7 @@ df.to_csv("result1.csv", index=False)
   </code>
 </pre>
 
-### Boundary_Correction.py:
+## Usage: Boundary_Correction.py:
 <p>The Boundary_correction functions calculates a weighted average of the blaze-removed spectrum of the two orders that can
 be used as a better estimate of the blaze function in the overlapping region.</p>
 <p>The function allows users to specify 2 parameters:
@@ -169,7 +172,7 @@ right_order.to_csv("corrected_right_order.csv", index=False)
   </code>
 </pre>
 
-### An Example to use LS_Smoothing.py:
+## Usage: LS_Smoothing.py:
 <P>The LS_Smoothing function takes a raw lab source as input and returns the smoothed lab source spectrum using the AFS algorithm. </P>
 <p>The LS_Smoothing function allows users to specify 4 parameters:
 
