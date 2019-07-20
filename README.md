@@ -47,6 +47,8 @@ is no available corresponding lab source spectrum. </p>
 <p>The AFS algorithm  allows users to specify 3 parameters:
 <p><li>order: order represents the order of the spectrum of which to remove the blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity. </li>
   <br>
+<li>a: a number between 3 and 12. It determines the value of alpha parameter in calculating alphashape, which is defined as the range of wavelength diveded by a. The default value of a is 6. </li>
+  <br>
 <li>q: a number between 0 and 1. The q quantile of fluxes within each local window of the spectrum will be used to fit a local polynomial model. The default value is 0.95. The desire is to select a q so that points in absorption lines are avoided.</li>
   <br>
 <li>d: the smoothing parameter for local polynomial regression, which is the proportion of neighboring points to be used when fitting at one point. Larger values of d result in a smoother fit. The default value is 0.25. </li>
@@ -65,7 +67,7 @@ import matplotlib.pyplot as plt
 data= pd.read_csv('ExampleSpectrum.csv', sep=',')
 <br>
 # run the AFS algorithm, where result, a one-dimensional vector, contains the blaze removed spectrum.
-result= AFS(data,0.95,0.25)
+result= AFS(data,6,0.95,0.25)
 <br>
 # If you want to plot the blaze-removed spectrum
 plt.clf()
@@ -89,6 +91,9 @@ df.to_csv("result1.csv", index=False)
 <p><li>order: order represents the order of the spectrum of which to remove the blaze function. It is an n by 2 data frame, in which the first column records wavelength and the second column records intensity. </li>
   <br>
   <li>led: led represents the corresponding order of the lab source spectrum. It is also an n by 2 data frame, in which the first column records wavelength and the second column records intensity.</li>
+  <br>
+  <li> a: a number between 3 and 12. It determines the value of alpha parameter in calculating alphashape, which is defined as the range of wavelength diveded by a. The default value of a is 6
+  </li>
   <br>
 <li>q: a number between 0 and 1. The q quantile of fluxes within each local window of the spectrum will be used to fit a local polynomial model. The default value is 0.95. The desire is to select a q so that points in absorption lines are avoided.</li>
   <br>
@@ -170,6 +175,9 @@ right_order.to_csv("corrected_right_order.csv", index=False)
 
 <p><li>order: order represents the order of raw lab source spectrum of which to smooth. It is an n by 2 data frame,
     in which the first column records wavelength and the second column records intensity. </li>
+  <br>
+  <li> a: a number between 3 and 12. It determines the value of alpha parameter in calculating alphashape, which is defined as the range of wavelength diveded by a. The default value of a is 6
+  </li>
   <br>
   <li> q: a number between 0 and 1. The q quantile of fluxes within each local window of the spectrum will be used to fit a local polynomial model. The default value is 0.95. The desire is to select a q so that points in absorption lines are avoided. </li>
   <br>
