@@ -108,8 +108,11 @@ df.to_csv("result1.csv", index=False)
 import pandas as pd
 from AFS import *
 <br>
-# Suppose you want to run the AFS_d algorithm on a filename called ExampleSpectrum.csv at the directory /Users/jiguangli/Blaze_Function
-# To get the blaze removed function, simply type the following, where result is a one-dimensional vector recording the normalized spectrum:
+# Suppose you want to run the AFS_d algorithm on a filename called ExampleSpectrum.csv at the directory 
+# /Users/jiguangli/Blaze_Function.
+# To get the blaze removed function, simply type the following, where result is a one-dimensional vector recording the 
+# normalized spectrum:
+<br>
 result=AFS_d("/Users/jiguangli/Blaze_Function⁨⁩","ExampleSpectrum.csv",a=6,q=0.95,d=0.25) 
   </code>
 </pre>
